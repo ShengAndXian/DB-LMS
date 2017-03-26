@@ -28,5 +28,5 @@ var admin_data = async (ctx , next) => {
 }
 
 module.exports = {
-    "POST /ad" : admin_data
+    "POST /admin/ad" : admin_data
 };

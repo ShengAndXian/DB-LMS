@@ -6,13 +6,6 @@ var query_data = async (ctx , next) => {
     var press = ctx.request.body.press || "%";
     var year = ctx.request.body.year || "%";
     var author = ctx.request.body.author || "%";
-    var price1 = ctx.request.body.price1 || "";
-    var price2 = ctx.request.body.price2 || "";
-    var total1 = ctx.request.body.total1 || "";
-    var total2 = ctx.request.body.total2 || "";
-    var stock1 = ctx.request.body.stock1 || "";
-    var stock2 = ctx.request.body.stock2 || "";
-
 
     if(ctx.request.body.fuzzy_bno==1)
         bno='%'+bno+'%';
@@ -25,50 +18,8 @@ var query_data = async (ctx , next) => {
     if(ctx.request.body.fuzzy_author==1)
         author='%'+author+'%';
 
-    if(price1!=""){
-    if(ctx.request.body.price_judge1==1)
-        price1=' and price > '+price1;
-    if(ctx.request.body.price_judge1==0)
-        price1=' and price = '+price1;
-    if(ctx.request.body.price_judge1==-1)
-        price1=' and price < '+price1;
-    if(ctx.request.body.price_judge2==1)
-        price1=price1+' and price > '+price2;
-    if(ctx.request.body.price_judge2==-1)
-        price1=price1+' and price < '+price2;
-    }
-
-    if(total1!=""){
-    if(ctx.request.body.total_judge1==1)
-        total1=' and total > '+total1;
-    if(ctx.request.body.total_judge1==0)
-        total1=' and total = '+total1;
-    if(ctx.request.body.total_judge1==-1)
-        total1=' and total < '+total1;
-    if(ctx.request.body.total_judge2==1)
-        total1=total1+' and total > '+total2;
-    if(ctx.request.body.total_judge2==-1)
-        total1=total1+' and total < '+total2;
-    }
-
-    if(stock1!=""){
-    if(ctx.request.body.stock_judge1==1)
-        stock1=' and stock > '+stock1;
-    if(ctx.request.body.stock_judge1==0)
-        stock1=' and stock = '+stock1;
-    if(ctx.request.body.stock_judge1==-1)
-        stock1=' and stock < '+stock1;
-    if(ctx.request.body.stock_judge2==1)
-        stock1=stock1+' and stock > '+stock2;
-    if(ctx.request.body.price_judge2==-1)
-        stock1=stock1+' and stock < '+stock2;
-    }
-
-    console.log(year);
-
     var  addSql = 'select * from book where bno like ? '+price1+stock1+total1+' and type like ? and title like ? and press like ? and year like ? and author like ? order by title limit 50';
     var  addSqlParams = [bno, type,title,press,year,author];
-
     var rows = await connection.query(addSql , addSqlParams);
     var map = new Map();
     map['bno'] = [];
@@ -99,5 +50,5 @@ var query_data = async (ctx , next) => {
 }
 
 module.exports = {
-    "POST /qu" : query_data
+    "POST /query/qu" : query_data
 };
