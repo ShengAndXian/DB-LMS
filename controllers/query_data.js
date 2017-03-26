@@ -6,11 +6,12 @@ var query_data = async (ctx , next) => {
     var press = ctx.request.body.press || "%";
     var year = ctx.request.body.year || "%";
     var author = ctx.request.body.author || "%";
+    console.log(bno);
 
     if(ctx.request.body.fuzzy_bno==1)
         bno='%'+bno+'%';
     if(ctx.request.body.fuzzy_type==1)
-        type='%'+tyoe+'%';
+        type='%'+type+'%';
     if(ctx.request.body.fuzzy_title==1)
         title='%'+title+'%';
     if(ctx.request.body.fuzzy_press==1)
@@ -18,7 +19,7 @@ var query_data = async (ctx , next) => {
     if(ctx.request.body.fuzzy_author==1)
         author='%'+author+'%';
 
-    var  addSql = 'select * from book where bno like ? '+price1+stock1+total1+' and type like ? and title like ? and press like ? and year like ? and author like ? order by title limit 50';
+    var  addSql = 'select * from book where bno = ? and type like ? and title like ? and press like ? and year like ? and author like ? order by title limit 50';
     var  addSqlParams = [bno, type,title,press,year,author];
     var rows = await connection.query(addSql , addSqlParams);
     var map = new Map();
@@ -42,7 +43,7 @@ var query_data = async (ctx , next) => {
     if(flag == 0){
         map["error"] = "不存在！";
     }
-
+    console.log(map);
     ctx.response.status = 200;
     ctx.response.type = 'application/json';
     ctx.response.body = JSON.stringify(map);
