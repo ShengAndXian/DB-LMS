@@ -90,5 +90,5 @@ var in_book_data = async (ctx , next) => {
 }
 
 module.exports = {
-    "POST /in" : in_book_data
+    "POST /in_book/in" : in_book_data
 };
