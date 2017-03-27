@@ -13,7 +13,7 @@ var add_card_data = async (ctx , next) => {
     }
     catch(err){
         console.log(err);
-        map["return"] = "添加借书证失败，请检查各项格式";
+        map["return"] = "添加借书证失败，借书证已存在或格式错误";
     }
     ctx.response.status = 200;
     ctx.response.type = 'application/json';
@@ -25,15 +25,16 @@ var delete_card_data = async (ctx , next) => {
     var connection = require('./login.js')();
     var cno = ctx.request.body.cno || "";
 
-    var sql = 'delete from card where cno = ?';
+    var sql = 'select * from card where cno = ?';
     var map = new Map();
-    try{
+    var result = await connection.query(sql , [cno]);
+    if(result.length == 0){
+        map["return"] = '借书证不存在！';
+    }
+    else{
+        sql = 'delete from card where cno = ?';
         await connection.query(sql , [cno]);
         map["return"] = '删除借书证成功！';
-    }
-    catch(err){
-        console.log(err);
-        map["return"] = "借书证不存在！";
     }
     ctx.response.status = 200;
     ctx.response.type = 'application/json';
