@@ -16,7 +16,16 @@ var in_book_css = async (ctx , next) => {
     await next();
 }
 
+var in_book_js = async (ctx , next) => {
+    var js_file = fs.readFileSync(path.resolve(__dirname , "..") + '/views/in_book.js');
+    ctx.response.type = 'text/javascript';
+    ctx.response.status = 200;
+    ctx.response.body = js_file;
+    await next();
+}
+
 module.exports = {
     "GET /in_book" : in_book_html,
-    "GET /in_book.css" : in_book_css
+    "GET /in_book.css" : in_book_css,
+    "GET /in_book.js" : in_book_js
 };

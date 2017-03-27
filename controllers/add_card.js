@@ -16,7 +16,16 @@ var add_card_css = async (ctx , next) => {
     await next();
 }
 
+var add_card_js = async (ctx , next) => {
+    var js_file = fs.readFileSync(path.resolve(__dirname , "..") + '/views/add_card.js');
+    ctx.response.type = 'text/javasrcipt';
+    ctx.response.status = 200;
+    ctx.response.body = js_file;
+    await next();
+}
+
 module.exports = {
     "GET /add_card" : add_card_html,
-    "GET /add_card.css" : add_card_css
+    "GET /add_card.css" : add_card_css,
+    "GET /add_card.js" : add_card_js
 };
