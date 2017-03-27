@@ -1,0 +1,31 @@
+body{
+    font: 14px/1.5 'Microsoft YaHei',arial,tahoma,\5b8b\4f53,sans-serif;
+    background-color:	#f5fffa;
+}
+h2{
+    margin-top:50px;
+}
+h3{
+    margin-top:30px;
+}
+div{
+    margin-left:315px;
+    margin-top:10px;
+}
+input.text{
+    margin-top:10px;
+    margin-left:325px;
+}
+input{
+    margin-left:10px;
+}
+button{
+    text-align:center;
+    height:40px;
+    width:100px;
+    background-color:white;
+    border:1px solid #99CCCC;
+    border-radius:5px;
+    margin-left:30px;
+    color:#99CCCC;
+}
