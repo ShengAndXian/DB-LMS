@@ -11,6 +11,7 @@ var admin_data = async (ctx , next) => {
     map['password'] = [];
     map['name'] = [];
     map['telephone'] = [];
+    map["error"] = "";
     var flag=0;
     for (var row of rows){
         for (var key in row){

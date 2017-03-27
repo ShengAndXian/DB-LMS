@@ -29,67 +29,65 @@ var in_book_data = async (ctx , next) => {
         if(bno==""||type==""||title==""||press==""||year==""||author==""||price==""||total=="")
             map1["error"]="请输入所有信息";
         else{
-        var addSql = 'select * from book where bno = ?';
-        var rows = await connection.query(addSql , [bno]);
-        for (var row of rows){
-            for (var key in row){
-                map[key].push(row[key]);
-            }
-        }
-        if(map['bno']!=""){
-            var flag=0;
-            map1["error"]="该书与数据库中的书号为"+map['bno']+"的书存在以下矛盾："
-            if(map['type'] != type){   
-                flag=1;
-                map1["error"]=map1["error"]+'类型 ';
-            }
-            if(map['title'] != title){
-                flag=1;
-                map1["error"]=map1["error"]+'书名 ';
-            }
-            if(map['press'] != press){
-                flag=1;
-                map1["error"]=map1["error"]+'出版社 ';
-            }
-
-
-            if(map['author'] != author){
-                flag=1;
-                map1["error"]=map1["error"]+'作者 ';
-            }
-            if(map['price'] != price){
-                flag=1;
-                map1["error"]=map1["error"]+'价格 ';
-            }
-
-            var flag2=0;
-            addSql = 'select * from book where bno = ? and year like ?';
-            rows = await connection.query(addSql , [bno,year]);
+            var addSql = 'select * from book where bno = ?';
+            var rows = await connection.query(addSql , [bno]);
             for (var row of rows){
                 for (var key in row){
-                    flag2=1;
+                    map[key].push(row[key]);
                 }
             }
-            if(flag2==0){
-                flag=1;
-                map1["error"]=map1["error"]+'出版日期 ';
-            }
+            if(map['bno']!=""){
+                var flag=0;
+                map1["error"]="该书与数据库中的书号为"+map['bno']+"的书存在以下矛盾："
+                if(map['type'] != type){   
+                    flag=1;
+                    map1["error"]=map1["error"]+'类型 ';
+                }
+                if(map['title'] != title){
+                    flag=1;
+                    map1["error"]=map1["error"]+'书名 ';
+                }
+                if(map['press'] != press){
+                    flag=1;
+                    map1["error"]=map1["error"]+'出版社 ';
+                }
+                if(map['author'] != author){
+                    flag=1;
+                    map1["error"]=map1["error"]+'作者 ';
+                }
+                if(map['price'] != price){
+                    flag=1;
+                    map1["error"]=map1["error"]+'价格 ';
+                }
 
-            if(flag==0){
-                console.log(total,stock);
-                map1["error"]="";
-                addSql = 'update book set total = total + ? , stock = stock + ? where bno = ?';
-                rows = await connection.query(addSql , [total,stock,bno]);
+                var flag2=0;
+                addSql = 'select * from book where bno = ? and year like ?';
+                rows = await connection.query(addSql , [bno,year]);
+                for (var row of rows){
+                    for (var key in row){
+                        flag2=1;
+                    }
+                }
+                if(flag2==0){
+                    flag=1;
+                    map1["error"]=map1["error"]+'出版日期 ';
+                }
+
+                if(flag==0){
+                    console.log(total,stock);
+                    map1["error"]="";
+                    addSql = 'update book set total = total + ? , stock = stock + ? where bno = ?';
+                    rows = await connection.query(addSql , [total,stock,bno]);
+                    map1["result"]="插入成功！" ;
+                }
+            }
+            else{
+                addSql = 'insert into book(bno,type,title,press,year,author,price,total,stock) values(?,?,?,?,?,?,?,?,?)';
+                rows = await connection.query(addSql , [bno,type,title,press,year,author,price,total,stock]);
                 map1["result"]="插入成功！" ;
             }
         }
-        else{
-            console.log(year);
-            addSql = 'insert into book(bno,type,title,press,year,author,price,total,stock) values(?,?,?,?,?,?,?,?,?)';
-            rows = await connection.query(addSql , [bno,type,title,press,year,author,price,total,stock]);
-            map1["result"]="插入成功！" ;
     }
-    }}
     else{
         var map1 = new Map();
         map1["error"] = [];
