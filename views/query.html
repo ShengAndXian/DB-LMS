@@ -5,8 +5,8 @@
 </head>
 <h1 align="center">浙江大学图书管理系统</h1>
 <h2 align="center">图书查询</h2>
-<form>
 <div>
+<form>
 <div>
   书号:
   </div>
@@ -35,11 +35,18 @@
 <div>
   出版日期:
 </div>
-<input class="text" placeholder="例如:2016/3/23" name="year"></input>
+<input class="text" placeholder="例如:2016-03-23" name="year"></input>
+<input type="checkbox" name="fuzzy_year" value=1 >模糊查找</br>
+<select name="order">
+  <option value="bno">书号</option>
+  <option value="title">书名</option>
+  <option value="type">类型</option>
+  <option value="year">出版日期</option>
+</select>
 </div>
 <div class="button">
-<button type="submit">查询</button>
-</div>
+<button type="button">查询</button>
 </form>
-<div id="data">
-    </div>
+</div>
+<div id="data" class="result">
+</div>
