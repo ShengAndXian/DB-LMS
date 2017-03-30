@@ -48,7 +48,9 @@ var borrow_data = async (ctx , next) => {
             else{
                 sql = 'select min(return_date) as return_date from borrow where bno = ?';
                 result = await connection.query(sql , [bno]);
-                map["return"] = `无库存，最近归还时间为：$(result[0]["return_date"])`;
+                return_time = result[0]["return_date"];
+                console.log(result);
+                map["return"] = '无库存，最近归还时间为：' + return_time;
             }
         }
         catch(err){
